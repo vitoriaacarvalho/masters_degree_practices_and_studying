@@ -25,4 +25,28 @@ model.fit(train_images, train_labels, epochs=5)
 
 test_loss, test_accuracy = model.evaluate(test_images, test_labels)
 
-print("Tested acc: ", test_accuracy)
+# predict() gives us a group of predictions, so its expecting us to pass a bunch of diff
+# things and it predicts them using the model.
+prediction = model.predict(test_images)
+
+
+# print(prediction[0]) --> The output looks like this for one of the indexes:
+# [4.74495551e-04 1.69124974e-06 1.11994186e-05 1.38690257e-06
+#  1.15848234e-04 7.62295723e-02 3.95751733e-04 4.57947515e-02
+#  6.75175761e-05 8.76907885e-01]
+#  These are all the different probabilities our network has predicted
+
+# !!!We are gonna take the highest number on this array and consider it the predicted value!!!
+# using np.argmax([])
+# print(class_names[np.argmax(prediction[0])])
+
+
+# How can we validate if this is actually working?
+# We can show the input and then show what the predicted value is, in that way, the programmer can validate that
+
+for i in range(8):
+    plt.grid(False)
+    plt.imshow(test_images[i], cmap=plt.cm.binary)
+    plt.xlabel("Actual: " + class_names[test_labels[i]])
+    plt.title("Prediction: " + class_names[np.argmax(prediction[i])])
+    plt.show()
